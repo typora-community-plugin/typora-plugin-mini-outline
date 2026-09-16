@@ -1,3 +1,210 @@
-.typ-example-cls {
-  color: red;
+/* ---------- mini outline bubble (right-edge floating TOC) ---------- */
+
+.mini-outline-bubble {
+  position: fixed;
+  /* top/right are overridden per-instance by JS inline styles; these are fallbacks. */
+  top: 50%;
+  right: 16px;
+  z-index: 10;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+}
+
+/* Hide all bubbles when the toggle command is active. */
+body.mini-outline-hidden-all .mini-outline-bubble {
+  display: none !important;
+}
+
+/* ---------- indicator (one line per heading) ---------- */
+
+.mini-outline-indicator {
+  width: 12px;
+  max-height: 60vh;
+  overflow: visible;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 3px;
+  /* Expand hit area to the right so the cursor can cross from indicator into panel without triggering close. */
+  padding-right: 6px;
+  margin-right: -6px;
+}
+
+.mini-outline-indicator-line {
+  /* Button reset — each line is a real <button> for accessibility + title tooltip. */
+  appearance: none;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 12px;
+  height: 6px;
+}
+
+/* The actual line is an inner bar so hover/active can animate its size. */
+.mini-outline-indicator-bar {
+  display: block;
+  width: 8px;
+  height: 1px;
+  border-radius: 1px;
+  background-color: rgba(127, 127, 127, 0.85);
+  transition: width .12s ease, height .12s ease, background-color .12s ease;
+}
+
+.mini-outline-indicator-line:hover .mini-outline-indicator-bar {
+  width: 12px;
+  height: 2px;
+  background-color: var(--primary-color);
+}
+
+.mini-outline-indicator-line-active .mini-outline-indicator-bar,
+.mini-outline-bubble:hover .mini-outline-indicator-line-active .mini-outline-indicator-bar {
+  width: 12px;
+  height: 2px;
+  background-color: var(--primary-color);
+}
+
+/* ---------- outline panel (shown when bubble is open) ---------- */
+
+.mini-outline-panel {
+  position: fixed;
+  top: 50%;
+  /* right set by JS inline style per instance. */
+  transform: translate(-105%, -50%);
+  display: none;
+  /* Shrink-to-fit the content, capped at 240px. */
+  width: max-content;
+  max-width: 240px;
+  max-height: 70vh;
+  overflow-y: auto;
+  border-radius: 10px;
+  padding: 8px 6px;
+  background-color: rgba(30, 30, 30, 0.95);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+  color: rgba(255, 255, 255, 0.82);
+  pointer-events: auto;
+}
+
+.mini-outline-bubble.mini-outline-open .mini-outline-panel {
+  display: block;
+}
+
+.mini-outline-list {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Thin scrollbar */
+.mini-outline-panel::-webkit-scrollbar {
+  width: 6px;
+}
+
+.mini-outline-panel::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.mini-outline-panel::-webkit-scrollbar-thumb {
+  background-color: rgba(127, 127, 127, 0.4);
+  border-radius: 3px;
+}
+
+/* ---------- outline rows ---------- */
+
+.mini-outline-row {
+  /* Button reset */
+  appearance: none;
+  border: 0;
+  background: transparent;
+  display: block;
+  width: 100%;
+  padding: 5px 8px;
+  text-align: left;
+  font-size: 13px;
+  line-height: 20px;
+  color: inherit;
+  cursor: pointer;
+  border-radius: 6px;
+  /* Single line with ellipsis at the row's right edge for overlong titles. */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.mini-outline-row:hover {
+  background-color: rgba(127, 127, 127, 0.18);
+}
+
+.mini-outline-row-active {
+  font-weight: 600;
+  color: #58a6ff;
+}
+
+.lvl-1 {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* ---------- light theme (panel + indicator accents) ---------- */
+
+@media (prefers-color-scheme: light) {
+  .mini-outline-indicator-bar {
+    background-color: rgba(89, 89, 89, 0.75);
+  }
+
+  .mini-outline-indicator-line:hover .mini-outline-indicator-bar,
+  .mini-outline-indicator-line-active .mini-outline-indicator-bar {
+    width: 12px;
+    height: 2px;
+    background-color: #0969da;
+  }
+
+  .mini-outline-panel {
+    background-color: rgba(255, 255, 255, 0.97);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.18);
+    color: rgba(31, 31, 31, 0.86);
+  }
+
+  .mini-outline-panel::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+
+  .mini-outline-row:hover {
+    background-color: rgba(9, 105, 218, 0.08);
+  }
+
+  .mini-outline-row-active {
+    color: #0969da;
+  }
+}
+
+/* ---------- editor-mode mount (`content` > bubble) ---------- */
+
+/*
+ * In Editor mode the bubble is appended to Typora's `<content>` (the parent of
+ * `#write`, see mini-outline.ts `syncMount()`).  Re-assert the box the outline
+ * relies on against `<content>`-level / theme rules; never touch the stacking
+ * order of Typora or of the plug-in workspace.
+ */
+content > .mini-outline-bubble {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  width: auto;
+  height: auto;
+  max-width: none;
+  max-height: none;
+  text-align: start;
 }
