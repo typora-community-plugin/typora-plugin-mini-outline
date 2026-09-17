@@ -60,7 +60,7 @@ export default class extends Plugin {
       title: 'Toggle Mini Outline',
       scope: 'editor',
       callback: () => {
-        document.body.classList.toggle('mini-outline-hidden-all')
+        document.body.classList.toggle('typ-mini-outline-hidden-all')
       },
     })
   }

@@ -4,7 +4,7 @@
 
 /* ---------- mini outline bubble (right-edge floating TOC) ---------- */
 
-.mini-outline-bubble {
+.typ-mini-outline-bubble {
   position: fixed;
   /* top/right are overridden per-instance by JS inline styles; these are fallbacks. */
   top: 50%;
@@ -16,13 +16,13 @@
 }
 
 /* Hide all bubbles when the toggle command is active. */
-body.mini-outline-hidden-all .mini-outline-bubble {
+body.typ-mini-outline-hidden-all .typ-mini-outline-bubble {
   display: none !important;
 }
 
 /* ---------- indicator (one line per heading) ---------- */
 
-.mini-outline-indicator {
+.typ-mini-outline-indicator {
   width: 12px;
   max-height: 60vh;
   overflow: visible;
@@ -36,7 +36,7 @@ body.mini-outline-hidden-all .mini-outline-bubble {
   margin-right: -6px;
 }
 
-.mini-outline-indicator-line {
+.typ-mini-outline-indicator-line {
   /* Button reset — each line is a real <button> for accessibility + title tooltip. */
   appearance: none;
   border: 0;
@@ -53,7 +53,7 @@ body.mini-outline-hidden-all .mini-outline-bubble {
 }
 
 /* The actual line is an inner bar so hover/active can animate its size. */
-.mini-outline-indicator-bar {
+.typ-mini-outline-indicator-bar {
   display: block;
   width: 8px;
   height: 1px;
@@ -62,14 +62,14 @@ body.mini-outline-hidden-all .mini-outline-bubble {
   transition: width .12s ease, height .12s ease, background-color .12s ease;
 }
 
-.mini-outline-indicator-line:hover .mini-outline-indicator-bar {
+.typ-mini-outline-indicator-line:hover .typ-mini-outline-indicator-bar {
   width: 12px;
   height: 2px;
   background-color: var(--typ-mini-outline-active-color);
 }
 
-.mini-outline-indicator-line-active .mini-outline-indicator-bar,
-.mini-outline-bubble:hover .mini-outline-indicator-line-active .mini-outline-indicator-bar {
+.typ-mini-outline-indicator-line-active .typ-mini-outline-indicator-bar,
+.typ-mini-outline-bubble:hover .typ-mini-outline-indicator-line-active .typ-mini-outline-indicator-bar {
   width: 12px;
   height: 2px;
   background-color: var(--typ-mini-outline-active-color);
@@ -77,7 +77,7 @@ body.mini-outline-hidden-all .mini-outline-bubble {
 
 /* ---------- outline panel (shown when bubble is open) ---------- */
 
-.mini-outline-panel {
+.typ-mini-outline-panel {
   position: fixed;
   top: 50%;
   /* right set by JS inline style per instance. */
@@ -96,32 +96,32 @@ body.mini-outline-hidden-all .mini-outline-bubble {
   pointer-events: auto;
 }
 
-.mini-outline-bubble.mini-outline-open .mini-outline-panel {
+.typ-mini-outline-bubble.typ-mini-outline-open .typ-mini-outline-panel {
   display: block;
 }
 
-.mini-outline-list {
+.typ-mini-outline-list {
   display: flex;
   flex-direction: column;
 }
 
 /* Thin scrollbar */
-.mini-outline-panel::-webkit-scrollbar {
+.typ-mini-outline-panel::-webkit-scrollbar {
   width: 6px;
 }
 
-.mini-outline-panel::-webkit-scrollbar-track {
+.typ-mini-outline-panel::-webkit-scrollbar-track {
   background: transparent;
 }
 
-.mini-outline-panel::-webkit-scrollbar-thumb {
+.typ-mini-outline-panel::-webkit-scrollbar-thumb {
   background-color: rgba(127, 127, 127, 0.4);
   border-radius: 3px;
 }
 
 /* ---------- outline rows ---------- */
 
-.mini-outline-row {
+.typ-mini-outline-row {
   /* Button reset */
   appearance: none;
   border: 0;
@@ -142,16 +142,16 @@ body.mini-outline-hidden-all .mini-outline-bubble {
   max-width: 100%;
 }
 
-.mini-outline-row:hover {
+.typ-mini-outline-row:hover {
   background-color: rgba(127, 127, 127, 0.18);
 }
 
-.mini-outline-row-active {
+.typ-mini-outline-row-active {
   font-weight: 600;
   color: var(--typ-mini-outline-active-color);
 }
 
-.lvl-1 {
+.typ-lvl-1 {
   font-size: 14px;
   font-weight: 500;
 }
@@ -159,32 +159,32 @@ body.mini-outline-hidden-all .mini-outline-bubble {
 /* ---------- light theme (panel + indicator accents) ---------- */
 
 @media (prefers-color-scheme: light) {
-  .mini-outline-indicator-bar {
+  .typ-mini-outline-indicator-bar {
     background-color: rgba(89, 89, 89, 0.75);
   }
 
-  .mini-outline-indicator-line:hover .mini-outline-indicator-bar,
-  .mini-outline-indicator-line-active .mini-outline-indicator-bar {
+  .typ-mini-outline-indicator-line:hover .typ-mini-outline-indicator-bar,
+  .typ-mini-outline-indicator-line-active .typ-mini-outline-indicator-bar {
     width: 12px;
     height: 2px;
     background-color: var(--typ-mini-outline-active-color);
   }
 
-  .mini-outline-panel {
+  .typ-mini-outline-panel {
     background-color: rgba(255, 255, 255, 0.97);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.18);
     color: rgba(31, 31, 31, 0.86);
   }
 
-  .mini-outline-panel::-webkit-scrollbar-thumb {
+  .typ-mini-outline-panel::-webkit-scrollbar-thumb {
     background-color: rgba(0, 0, 0, 0.2);
   }
 
-  .mini-outline-row:hover {
+  .typ-mini-outline-row:hover {
     background-color: rgba(9, 105, 218, 0.08);
   }
 
-  .mini-outline-row-active {
+  .typ-mini-outline-row-active {
     color: var(--typ-mini-outline-active-color);
   }
 }
@@ -197,7 +197,7 @@ body.mini-outline-hidden-all .mini-outline-bubble {
  * relies on against `<content>`-level / theme rules; never touch the stacking
  * order of Typora or of the plug-in workspace.
  */
-content > .mini-outline-bubble {
+content > .typ-mini-outline-bubble {
   position: fixed;
   display: flex;
   align-items: center;

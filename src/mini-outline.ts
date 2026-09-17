@@ -21,7 +21,7 @@ function headingLevel(el: HTMLElement): number {
 }
 
 /** Normalize heading text: collapse whitespace and trim. Overlong titles are NOT truncated here — the
- * ellipsis is rendered by CSS (`text-overflow` on `.mini-outline-row`) while the full normalized text is
+ * ellipsis is rendered by CSS (`text-overflow` on `.typ-mini-outline-row`) while the full normalized text is
  * kept for display and for the indicator's `title` tooltip. */
 export function normalizeHeadingText(raw: string | null): string {
   const text = (raw ?? '').replace(/\s+/g, ' ').trim()
@@ -298,17 +298,17 @@ export class MiniOutline {
 
   private buildBubble(): void {
     const bubble = document.createElement('div')
-    bubble.className = 'mini-outline-bubble'
+    bubble.className = 'typ-mini-outline-bubble'
     bubble.dataset.miniOutline = ''
 
     const indicator = document.createElement('div')
-    indicator.className = 'mini-outline-indicator'
+    indicator.className = 'typ-mini-outline-indicator'
     bubble.appendChild(indicator)
 
     const panel = document.createElement('div')
-    panel.className = 'mini-outline-panel'
+    panel.className = 'typ-mini-outline-panel'
     const list = document.createElement('div')
-    list.className = 'mini-outline-list'
+    list.className = 'typ-mini-outline-list'
     panel.appendChild(list)
     bubble.appendChild(panel)
 
@@ -402,14 +402,14 @@ export class MiniOutline {
     const a = this.anchors[i]
     const btn = document.createElement('button')
     btn.type = 'button'
-    btn.className = `${baseClass} lvl-${a.level}`
+    btn.className = `${baseClass} typ-lvl-${a.level}`
     btn.dataset.idx = String(i)
-    if (baseClass === 'mini-outline-row') {
+    if (baseClass === 'typ-mini-outline-row') {
       btn.style.paddingLeft = `${8 + (a.level - 1) * 12}px`
       btn.textContent = a.text
     } else {
       const bar = document.createElement('span')
-      bar.className = 'mini-outline-indicator-bar'
+      bar.className = 'typ-mini-outline-indicator-bar'
       btn.appendChild(bar)
       btn.title = a.text
     }
@@ -425,7 +425,7 @@ export class MiniOutline {
     if (!el) return
     el.replaceChildren()
     for (let i = 0; i < this.anchors.length; i++) {
-      const btn = this.makeRow(i, 'mini-outline-indicator-line')
+      const btn = this.makeRow(i, 'typ-mini-outline-indicator-line')
       el.appendChild(btn)
     }
   }
@@ -436,7 +436,7 @@ export class MiniOutline {
     if (!list) return
     list.replaceChildren()
     for (let i = 0; i < this.anchors.length; i++) {
-      list.appendChild(this.makeRow(i, 'mini-outline-row'))
+      list.appendChild(this.makeRow(i, 'typ-mini-outline-row'))
     }
   }
 
@@ -520,7 +520,7 @@ export class MiniOutline {
       this.closeTimer = null
     }
     this.positionFromRect()
-    this.bubble?.classList.add('mini-outline-open')
+    this.bubble?.classList.add('typ-mini-outline-open')
   }
 
   /** Schedule closing the panel after a short delay to allow crossing gaps. */
@@ -528,7 +528,7 @@ export class MiniOutline {
     if (this.closeTimer !== null) return
     this.closeTimer = setTimeout(() => {
       this.closeTimer = null
-      this.bubble?.classList.remove('mini-outline-open')
+      this.bubble?.classList.remove('typ-mini-outline-open')
     }, CLOSE_DELAY_MS)
   }
 
@@ -600,14 +600,14 @@ export class MiniOutline {
 
     const rows = Array.from(this.list.children) as HTMLElement[]
     for (let i = 0; i < rows.length; i++) {
-      rows[i].classList.toggle('mini-outline-row-active', i === idx)
+      rows[i].classList.toggle('typ-mini-outline-row-active', i === idx)
     }
 
     if (!this.indicatorEl) return
-    const lines = this.indicatorEl.querySelectorAll<HTMLElement>('.mini-outline-indicator-line')
+    const lines = this.indicatorEl.querySelectorAll<HTMLElement>('.typ-mini-outline-indicator-line')
     for (const line of Array.from(lines)) {
       const li = parseInt(line.dataset.idx ?? '-1', 10)
-      line.classList.toggle('mini-outline-indicator-line-active', li === idx)
+      line.classList.toggle('typ-mini-outline-indicator-line-active', li === idx)
     }
 
     if (changed && keepVisible && idx >= 0 && rows[idx]) {
