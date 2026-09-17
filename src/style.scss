@@ -78,10 +78,13 @@ body.typ-mini-outline-hidden-all .typ-mini-outline-bubble {
 /* ---------- outline panel (shown when bubble is open) ---------- */
 
 .typ-mini-outline-panel {
-  position: fixed;
+  /* Anchored to the bubble (its `position: fixed` is the containing block), so it follows each
+     leaf's bubble instead of resolving against the browser window. */
+  position: absolute;
   top: 50%;
-  /* right set by JS inline style per instance. */
-  transform: translate(-105%, -50%);
+  right: 100%;
+  margin-right: 6px;
+  transform: translateY(-50%);
   display: none;
   /* Shrink-to-fit the content, capped at 240px. */
   width: max-content;

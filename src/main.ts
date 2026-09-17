@@ -37,7 +37,7 @@ export default class extends Plugin {
     }, 300)
 
     this.register(this.app.workspace.on('file:open', () => refreshAll()))
-    this.register(this.app.features.markdownEditor.on('load', (_editorEl) => refreshAll()))
+    this.register(this.app.features.markdownEditor.on('load', () => refreshAll()))
     this.register(this.app.features.markdownEditor.on('edit', () => refreshAll()))
 
     this.register(this.app.features.markdownEditor.on('scroll', () => {
@@ -54,6 +54,7 @@ export default class extends Plugin {
       }
       requestAnimationFrame(() => this.refreshAll())
     }))
+    this.register(this.app.workspace.rootSplit.on('split:resized', () => refreshAll()))
 
     this.registerCommand({
       id: 'mini-outline:toggle',

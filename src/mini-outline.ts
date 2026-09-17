@@ -282,12 +282,44 @@ export class MiniOutline {
 
   // ---- positioning --------------------------------------------------------
 
-  /** Position bubble + panel from the view's current rect (fixed coordinates). */
+  /** Position the bubble relative to its own leaf, using fixed (viewport) coordinates.
+   * The anchor is the **WorkspaceLeaf (.typ-workspace-leaf / pane) box itself** — never the
+   * `.typ-markdown-view` rect: a preview pane's view element is as tall as the whole document and
+   * is moved by an ancestor scroller, so its raw center (and even its intersection with the viewport
+   * after scrolling down) can sit far outside the leaf; deriving the vertical position from that
+   * rect failed twice before. The leaf box, in contrast, has full window height under a left/right
+   * split and half of it under a top/bottom split — so `top = anchor.top + anchor.height / 2` (plus
+   * the CSS `transform: translateY(-50%)`) lands on 50% of that pane for either layout. */
   positionFromRect(): void {
+    if (!this.bubble) return
+    const r = this.resolveAnchorRect()
+    // No usable anchor rect (leaf and view both un-laid-out / degenerate): keep the previous
+    // inline styles untouched instead of writing meaningless or negative coordinates.
+    if (!r || r.width <= 0 || r.height <= 0) return
+    const top = Math.round(Math.min(Math.max(r.top + r.height / 2, 0), window.innerHeight))
+    const right = Math.round(Math.max(window.innerWidth - r.right + 16, 0))
+    this.bubble.style.top = `${top}px`
+    this.bubble.style.right = `${right}px`
+    // Clear any residual `bottom` (theme/inheritance leftovers); top and bottom must not coexist.
+    this.bubble.style.bottom = 'auto'
+  }
+
+  /** Anchor rect for positioning: the WorkspaceLeaf box first, falling back to the view/container
+   * rect when the leaf's is degenerate so degraded editor-mode layouts still get a sane position.
+   * Returns `null` only when neither yields a non-degenerate (width > 0 && height > 0) rect — in
+   * that case callers must not write any inline style at all. */
+  private resolveAnchorRect(): DOMRect | null {
+    const leaf = this.containerEl?.closest<HTMLElement>('.typ-workspace-leaf') ?? this.containerEl
+    if (leaf) {
+      const r = leaf.getBoundingClientRect()
+      if (r.width > 0 && r.height > 0) return r
+    }
     const view = this.viewContainer ?? this.containerEl
-    if (!view || !this.bubble) return
-    const r = view.getBoundingClientRect()
-    this.bubble.style.right = `${window.innerWidth - r.right + 16}px`
+    if (view) {
+      const r = view.getBoundingClientRect()
+      if (r.width > 0 && r.height > 0) return r
+    }
+    return null
   }
 
   position(): void {
