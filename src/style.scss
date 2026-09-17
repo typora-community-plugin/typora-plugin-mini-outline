@@ -1,3 +1,7 @@
+:root {
+  --typ-mini-outline-active-color: var(--primary-color);
+}
+
 /* ---------- mini outline bubble (right-edge floating TOC) ---------- */
 
 .mini-outline-bubble {
@@ -61,14 +65,14 @@ body.mini-outline-hidden-all .mini-outline-bubble {
 .mini-outline-indicator-line:hover .mini-outline-indicator-bar {
   width: 12px;
   height: 2px;
-  background-color: var(--primary-color);
+  background-color: var(--typ-mini-outline-active-color);
 }
 
 .mini-outline-indicator-line-active .mini-outline-indicator-bar,
 .mini-outline-bubble:hover .mini-outline-indicator-line-active .mini-outline-indicator-bar {
   width: 12px;
   height: 2px;
-  background-color: var(--primary-color);
+  background-color: var(--typ-mini-outline-active-color);
 }
 
 /* ---------- outline panel (shown when bubble is open) ---------- */
@@ -144,7 +148,7 @@ body.mini-outline-hidden-all .mini-outline-bubble {
 
 .mini-outline-row-active {
   font-weight: 600;
-  color: #58a6ff;
+  color: var(--typ-mini-outline-active-color);
 }
 
 .lvl-1 {
@@ -163,7 +167,7 @@ body.mini-outline-hidden-all .mini-outline-bubble {
   .mini-outline-indicator-line-active .mini-outline-indicator-bar {
     width: 12px;
     height: 2px;
-    background-color: #0969da;
+    background-color: var(--typ-mini-outline-active-color);
   }
 
   .mini-outline-panel {
@@ -181,7 +185,7 @@ body.mini-outline-hidden-all .mini-outline-bubble {
   }
 
   .mini-outline-row-active {
-    color: #0969da;
+    color: var(--typ-mini-outline-active-color);
   }
 }
 
