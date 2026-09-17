@@ -7,6 +7,6 @@
   "repo": "typora-community-plugin/typora-plugin-mini-outline",
   "version": "1.0.0",
   "minAppVersion": "1.5.0",
-  "minCoreVersion": "2.7.7",
+  "minCoreVersion": "2.10.23",
   "platforms": ["win32", "linux", "darwin"]
 }
